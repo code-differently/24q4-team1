@@ -21,6 +21,6 @@ public class PercentDiscount extends Discount {
         for (CartItem item: items) {
             sum += item.getPrice();
         }
-        return sum * 0.1;
+        return sum * discountRate;
     }
 }
