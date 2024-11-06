@@ -1,5 +1,6 @@
 package q4.team1;
 
+
 import java.util.ArrayList;
 
 public class CartCalculator {
@@ -15,5 +16,3 @@ public class CartCalculator {
 
     return sum;
   }
-
-}
