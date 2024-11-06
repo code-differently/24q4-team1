@@ -36,6 +36,7 @@ public class CartItem {
     return price;
   }
   @Override
-  public String toString ()
+  public String toString (){
     return "name: " + name + " price: $" + price + " " + "quantity: " + quantity;
   }
+}
