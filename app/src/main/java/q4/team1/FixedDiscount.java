@@ -1,5 +1,5 @@
 package q4.team1;
 
-public class FixedDiscount {
+public class FixedDiscount extends Discount {
 
 }
