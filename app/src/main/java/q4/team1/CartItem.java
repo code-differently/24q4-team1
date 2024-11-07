@@ -1,5 +1,7 @@
 package q4.team1;
 
+import q4.team1.exceptions.ItemHasNegativeException;
+
 public class CartItem {
 
   private String name;
@@ -11,8 +13,11 @@ public class CartItem {
   public CartItem(String name, int quantity, double orgPrice){
     this.name = name;
     this.quantity = quantity;
+    if (orgPrice < 0 ){
+      throw new ItemHasNegativeException("Error item price cannot be negative");
+    }
     this.orgPrice = orgPrice;
-    this.price = orgPrice;
+    this.price = orgPrice*quantity;
   }
   public String getName(){
     return name;
@@ -21,19 +26,16 @@ public class CartItem {
     return quantity;
   }
   public double getPrice(){
-    return price;
+    return this.price = this.orgPrice*this.quantity;
   }
   public double getOrgPrice(){
-    return orgPrice;
+    return this.orgPrice;
   }
-  public String setName(){
-    return name;
+  public void setName(String name){
+    this.name = name;
   }
-  public int setQuantity(){
-    return quantity;
-  }
-  public double setPrice(){
-    return price;
+  public void setQuantity(int quantity){
+    this.quantity = quantity;
   }
   @Override
   public String toString (){

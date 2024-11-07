@@ -19,12 +19,11 @@ public class PercentDiscount extends Discount {
     /**
      * Constructs a {@code PercentDiscount} with the specified cart total, items, and discount rate.
      *
-     * @param cartTotal The total cost of items in the cart before applying the discount.
      * @param items The list of items in the cart.
      * @param discountRate The rate at which the discount is applied (e.g., 0.10 for 10% off).
      */
-    public PercentDiscount(double cartTotal, ArrayList<CartItem> items, double discountRate) {
-        super(cartTotal, items);
+    public PercentDiscount(ArrayList<CartItem> items, double discountRate) {
+        super(items);
         this.items = items;
         if (discountRate < 0){
           throw new NegativeDiscountException("Error cannot have a negative discount");
