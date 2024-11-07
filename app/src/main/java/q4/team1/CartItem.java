@@ -1,5 +1,7 @@
 package q4.team1;
 
+import q4.team1.exceptions.ItemHasNegativeException;
+
 public class CartItem {
 
   private String name;
@@ -11,6 +13,9 @@ public class CartItem {
   public CartItem(String name, int quantity, double orgPrice){
     this.name = name;
     this.quantity = quantity;
+    if (orgPrice < 0 ){
+      throw new ItemHasNegativeException("Error item price cannot be negative");
+    }
     this.orgPrice = orgPrice;
     this.price = orgPrice;
   }
