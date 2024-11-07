@@ -19,12 +19,11 @@ public class FixedDiscount extends Discount {
     /**
      * Constructs a {@code FixedDiscount} instance with the specified cart total, items, and discount amount.
      *
-     * @param cartTotal The total cost of items in the cart before applying the discount.
      * @param items The list of items in the cart.
      * @param discountAmount The fixed discount amount to subtract from the cart total.
      */
-    public FixedDiscount(double cartTotal, ArrayList<CartItem> items, double discountAmount) {
-        super(cartTotal, items);
+    public FixedDiscount(ArrayList<CartItem> items, double discountAmount) {
+        super(items);
         this.items = items;
         if (discountAmount < 0){
           throw new NegativeDiscountException("Error cannot have a negative discount");
