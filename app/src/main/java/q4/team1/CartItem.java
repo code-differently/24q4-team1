@@ -21,19 +21,16 @@ public class CartItem {
     return quantity;
   }
   public double getPrice(){
-    return price;
+    return this.price*this.quantity;
   }
   public double getOrgPrice(){
-    return orgPrice;
+    return this.orgPrice*this.quantity;
   }
-  public String setName(){
-    return name;
+  public void setName(String name){
+    this.name = name;
   }
-  public int setQuantity(){
-    return quantity;
-  }
-  public double setPrice(){
-    return price;
+  public void setQuantity(int quantity){
+    this.quantity = quantity;
   }
   @Override
   public String toString (){
