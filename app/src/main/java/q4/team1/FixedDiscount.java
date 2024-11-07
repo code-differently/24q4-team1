@@ -2,6 +2,8 @@ package q4.team1;
 
 import java.util.ArrayList;
 
+import q4.team1.exceptions.NegativeDiscountException;
+
 /**
  * The {@code FixedDiscount} class extends the {@code Discount} class to apply
  * a fixed discount amount on the total price of items in a shopping cart.
@@ -24,6 +26,9 @@ public class FixedDiscount extends Discount {
     public FixedDiscount(double cartTotal, ArrayList<CartItem> items, double discountAmount) {
         super(cartTotal, items);
         this.items = items;
+        if (discountAmount < 0){
+          throw new NegativeDiscountException("Error cannot have a negative discount");
+        }
         this.discountAmount = discountAmount;
     }
 
@@ -42,4 +47,3 @@ public class FixedDiscount extends Discount {
         return sum - discountAmount;
     }
 }
-

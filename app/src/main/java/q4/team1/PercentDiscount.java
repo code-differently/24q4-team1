@@ -2,6 +2,8 @@ package q4.team1;
 
 import java.util.ArrayList;
 
+import q4.team1.exceptions.NegativeDiscountException;
+
 /**
  * The {@code PercentDiscount} class extends the {@code Discount} class to provide
  * a discount based on a fixed percentage applied to the total price of items in a cart.
@@ -24,6 +26,9 @@ public class PercentDiscount extends Discount {
     public PercentDiscount(double cartTotal, ArrayList<CartItem> items, double discountRate) {
         super(cartTotal, items);
         this.items = items;
+        if (discountRate < 0){
+          throw new NegativeDiscountException("Error cannot have a negative discount");
+        }
         this.discountRate = discountRate;
     }
 
@@ -50,4 +55,3 @@ public class PercentDiscount extends Discount {
         return sum * discountRate;
     }
 }
-
