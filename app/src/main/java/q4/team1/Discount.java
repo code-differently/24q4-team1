@@ -2,6 +2,8 @@ package q4.team1;
 
 import java.util.ArrayList;
 
+import q4.team1.exceptions.ItemNotFoundException;
+
 /**
  * The {@code Discount} abstract class provides a framework for calculating
  * various types of discounts on a shopping cart.
@@ -19,6 +21,9 @@ public abstract class Discount {
      * @param items The list of items in the cart.
      */
     public Discount(ArrayList<CartItem> items) {
+        if (items == null){
+            throw new ItemNotFoundException("Error no items to apply discount to");
+        }
         this.items = items;
     }
 
