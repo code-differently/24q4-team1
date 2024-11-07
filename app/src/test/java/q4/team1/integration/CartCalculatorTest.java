@@ -39,6 +39,6 @@ public class CartCalculatorTest {
     cart.addCartItem(item2);
 
     assertEquals(275, checkout.calculatePrice(cart));
-
   }
+
 }
