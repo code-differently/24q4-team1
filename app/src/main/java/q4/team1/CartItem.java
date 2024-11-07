@@ -12,7 +12,7 @@ public class CartItem {
     this.name = name;
     this.quantity = quantity;
     this.orgPrice = orgPrice;
-    this.price = orgPrice;
+    this.price = orgPrice*quantity;
   }
   public String getName(){
     return name;
@@ -21,10 +21,10 @@ public class CartItem {
     return quantity;
   }
   public double getPrice(){
-    return this.price*this.quantity;
+    return this.price = this.orgPrice*this.quantity;
   }
   public double getOrgPrice(){
-    return this.orgPrice*this.quantity;
+    return this.orgPrice;
   }
   public void setName(String name){
     this.name = name;
