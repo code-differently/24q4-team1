@@ -56,10 +56,20 @@ import static org.junit.jupiter.api.Assertions.*;
         String expected = "name: Apple price: $9.95 quantity: 5";
         assertEquals(expected, cartItem.toString());
     }
+    @Test
+    public void testSetQuantity_(){
+        CartItem.setQuantity(10); 
     
+    assertEquals(10, cartItem.getQuantity());
+    
+    
+    double expectedPrice = 10 * cartItem.getOrgPrice();   
+    
+    
+    assertEquals(expectedPrice, cartItem.getPrice(), 0.001);  
 }
 
-
+ }
 
 
 
