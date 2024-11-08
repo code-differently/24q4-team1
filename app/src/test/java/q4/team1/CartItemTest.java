@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
         assertEquals("Apple", cartItem.getName());
         assertEquals(5, cartItem.getQuantity());
         assertEquals(1.99, cartItem.getOrgPrice());
-        assertEquals(5 * 1.99, cartItem.getPrice(), 0.001); 
+        assertEquals(5 * 1.99, cartItem.getPrice(), 0.001);
     }
 
     @Test
@@ -58,22 +58,15 @@ import static org.junit.jupiter.api.Assertions.*;
     }
     @Test
     public void testSetQuantity_(){
-        CartItem.setQuantity(10); 
-    
+        cartItem.setQuantity(10);
+
     assertEquals(10, cartItem.getQuantity());
-    
-    
-    double expectedPrice = 10 * cartItem.getOrgPrice();   
-    
-    
-    assertEquals(expectedPrice, cartItem.getPrice(), 0.001);  
+
+
+    double expectedPrice = 10 * cartItem.getOrgPrice();
+
+
+    assertEquals(expectedPrice, cartItem.getPrice(), 0.001);
 }
 
  }
-
-
-
-
-
-
-
