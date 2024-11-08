@@ -18,6 +18,7 @@ public class CartItem {
     }
     this.orgPrice = orgPrice;
     this.price = orgPrice*quantity;
+    
   }
   public String getName(){
     return name;
