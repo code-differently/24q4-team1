@@ -9,17 +9,23 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import q4.team1.exceptions.ItemNotFoundException;
+import q4.team1.exceptions.NegativeDiscountException;
 
 public class DiscountTest {
     private ArrayList<CartItem> items;
 
     private static class TestDiscount extends Discount {
-        public TestDiscount(ArrayList<CartItem> items) {
+        double discount;
+        public TestDiscount(ArrayList<CartItem> items, double discount) {
             super(items);
+            this.discount = discount;
         }
 
         @Override
-        public double calculateDiscount() {
+        public double calculateDiscount() throws NegativeDiscountException {
+            if (discount < 0) {
+                throw new NegativeDiscountException("Error cannot have a negative discount");
+            }
             return 10.0;
         }
     }
@@ -32,12 +38,17 @@ public class DiscountTest {
 
     @Test
     void testDiscount_NullItems() {
-        assertThrows(ItemNotFoundException.class, () -> {new TestDiscount(null);});
+        assertThrows(ItemNotFoundException.class, () -> {new TestDiscount(null, 10.0);});
     }
 
     @Test
     void testDiscount_ValidItems() {
-        TestDiscount discount = new TestDiscount(items);
+        TestDiscount discount = new TestDiscount(items, 10.0);
         Assertions.assertEquals(10.0, discount.calculateDiscount());
+    }
+
+    @Test
+    void testDiscount_NegativeDiscount() {
+        assertThrows(NegativeDiscountException.class, () -> {new TestDiscount(items, -10.0).calculateDiscount();});
     }
 }
