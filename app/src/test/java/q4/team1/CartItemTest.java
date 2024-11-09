@@ -58,7 +58,7 @@ import static org.junit.jupiter.api.Assertions.*;
     }
     @Test
     public void testSetQuantity_(){
-        CartItem.setQuantity(10); 
+        cartItem.setQuantity(10); 
     
     assertEquals(10, cartItem.getQuantity());
     

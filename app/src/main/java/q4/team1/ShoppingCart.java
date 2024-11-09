@@ -18,15 +18,19 @@ public class ShoppingCart {
     public ArrayList<CartItem> getCartItems(){
         return shoppingCart;
     }
-    public void printCartItems(){
+    public String printCartItems(){
+        String value = "";
         if(shoppingCart.isEmpty()){
-            throw new CartIsEmptyException();
+            throw new CartIsEmptyException("This cart is empty");
         }
         System.out.println("############################");
         for(CartItem item : shoppingCart){
             System.out.println(item.toString());
+            value += item.toString() + "\n";
         }
         System.out.println("############################");
+        return value;
+
     }
     public void clearCart(){
         shoppingCart.clear();

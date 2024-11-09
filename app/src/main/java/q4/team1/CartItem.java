@@ -37,6 +37,7 @@ public class CartItem {
   }
   public void setQuantity(int quantity){
     this.quantity = quantity;
+    this.price = quantity * orgPrice;
   }
   @Override
   public String toString (){
