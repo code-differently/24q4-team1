@@ -22,7 +22,8 @@ Project repo for team 1
   - common errors are handled w/ each step
   - Ongoing maintenance is simplified
 
-## How did you address each of the SOLID principles? [All files](app/src/main/java/q4/team1)
+## How did you address each of the SOLID principles? 
+[All files](app/src/main/java/q4/team1)
 - Single Responsibility Principle
   - Each of our classes has a single and clear responsibility
 - Open/Closed Principle
