@@ -64,6 +64,7 @@ To ensure the timely completion of your project, you will need to complete the f
         </tr>
     </tbody>
 </table>
+
 ### Helpful Resources
 Here are some links to tools and templates that can help you work together effectively.
 * [A Short Guide to Effective Daily Standups (Nave)](https://getnave.com/blog/short-guide-daily-standups/)
