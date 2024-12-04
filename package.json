@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/tailwindcss": "^3.0.11"
+  },
+  "dependencies": {
+    "next": "^15.0.3"
+  }
+}
