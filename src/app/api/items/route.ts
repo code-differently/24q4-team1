@@ -1,12 +1,5 @@
-// app/api/items/route.ts
 import { NextResponse } from 'next/server';
-
-type Item = {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-};
+import '@/types/item'
 
 const items = [
   { id: 1, name: "Item A", description: "Description of Item A", price: 20.99 },
