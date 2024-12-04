@@ -30,3 +30,8 @@ build
 
 # Ignore Node modules
 node_modules/
+
+.next
+
+# Ignore Next.js generated TypeScript declaration file
+next-env.d.ts
