@@ -1,12 +1,35 @@
 import { NextResponse } from 'next/server';
-import '@/types/item'
 
-const items = [
-  { id: 1, name: "Item A", description: "Description of Item A", price: 20.99 },
-  { id: 2, name: "Item B", description: "Description of Item B", price: 15.49 },
-  { id: 3, name: "Item C", description: "Description of Item C", price: 10.00 },
-];
+
+/**
+ * @swagger
+ * /api/items:
+ *   get:
+ *     description: Returns all items
+ *     responses:
+ *       200:
+ *         description: Json Object of items!
+ *       500:
+ *         description: Failed to fetch
+ */
 
 export async function GET() {
-  return NextResponse.json({ items });
+  try {
+    const response = await fetch('https://dummyjson.com/products');
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error('Error fetching products:', error);
+
+    return NextResponse.json(
+      { message: 'Failed to fetch products'},
+      { status: 500 }
+    );
+  }
 }
