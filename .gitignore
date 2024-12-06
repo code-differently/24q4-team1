@@ -35,3 +35,5 @@ node_modules/
 
 # Ignore Next.js generated TypeScript declaration file
 next-env.d.ts
+
+.env

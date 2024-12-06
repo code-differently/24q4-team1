@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
 
 /**
  * @swagger
@@ -149,9 +149,10 @@ export async function GET(
   { params }: { params: { name: string } }
 ) {
   const { name } = params;
-  console.log(encodeURIComponent(name))
 
-  const apiUrl = `https://dummyjson.com/products/search?q=${encodeURIComponent(name)}`;
+  const apiUrl = `https://dummyjson.com/products/search?q=${encodeURIComponent(
+    name
+  )}`;
 
   try {
     const response = await fetch(apiUrl);
@@ -164,12 +165,11 @@ export async function GET(
 
     return data
       ? NextResponse.json({ product: data })
-      : NextResponse.json({ error: 'Item not found' }, { status: 404 });
-
-  } catch (error: any) {
-    console.error('Error fetching product:', error);
+      : NextResponse.json({ error: "Item not found" }, { status: 404 });
+  } catch (error: unknown) {
+    console.error("Error fetching product:", error);
     return NextResponse.json(
-      { error: 'Internal server error', details: error.message },
+      { error: "Internal server error", details: error },
       { status: 500 }
     );
   }

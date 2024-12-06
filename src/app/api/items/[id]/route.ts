@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
 
 /**
  * @swagger
@@ -162,12 +162,11 @@ export async function GET(
 
     return data
       ? NextResponse.json({ product: data })
-      : NextResponse.json({ error: 'Item not found' }, { status: 404 });
-
-  } catch (error: any) {
-    console.error('Error fetching product:', error);
+      : NextResponse.json({ error: "Item not found" }, { status: 404 });
+  } catch (error: unknown) {
+    console.error("Error fetching product:", error);
     return NextResponse.json(
-      { error: 'Failed to fetch products', details: error.message },
+      { error: "Failed to fetch products", details: error },
       { status: 500 }
     );
   }
