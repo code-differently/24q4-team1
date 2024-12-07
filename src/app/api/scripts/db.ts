@@ -34,11 +34,12 @@ const items = `
 db.exec(items);
 
 const cart = `
-  CREATE TABLE IF NOT EXISTS CART
+  CREATE TABLE IF NOT EXISTS CART(
     id INTEGER PRIMARY KEY,
     title TEXT NOT NULL,
     description TEXT NOT NULL,
     price INTEGER NOT NULL
+)
 `
 db.exec(cart);
 
