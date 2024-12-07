@@ -45,9 +45,9 @@ async function fetchDataAndStore() {
 
     const insertData = db.prepare(`
       INSERT OR IGNORE INTO items (
-        title, description, price, images, category, stock, rating, 
+        id, title, description, price, images, category, stock, rating, 
         discountPercentage, brand, sku, warrantyInformation, shippingInformation, reviews
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
     items.forEach((item: Item) => {
@@ -58,6 +58,7 @@ async function fetchDataAndStore() {
         }
 
         insertData.run(
+          item.id,
           item.title, 
           item.description, 
           price, 
