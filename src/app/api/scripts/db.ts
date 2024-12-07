@@ -13,7 +13,7 @@ if (!fs.existsSync(dir)) {
 
 const db = new Database(dbPath);
 
-const query = `
+const items = `
   CREATE TABLE IF NOT EXISTS items (
     id INTEGER PRIMARY KEY,
     title TEXT NOT NULL,
@@ -31,7 +31,16 @@ const query = `
     reviews TEXT  
   )
 `;
-db.exec(query);
+db.exec(items);
+
+const cart = `
+  CREATE TABLE IF NOT EXISTS CART
+    id INTEGER PRIMARY KEY,
+    title TEXT NOT NULL,
+    description TEXT NOT NULL,
+    price INTEGER NOT NULL
+`
+db.exec(cart);
 
 async function fetchDataAndStore() {
   try {
@@ -49,7 +58,6 @@ async function fetchDataAndStore() {
         discountPercentage, brand, sku, warrantyInformation, shippingInformation, reviews
       ) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
-
     items.forEach((item: Item) => {
       try {
         const price = parseFloat(item.price.toString());
