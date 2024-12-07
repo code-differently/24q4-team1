@@ -38,7 +38,8 @@ const cart = `
     id INTEGER PRIMARY KEY,
     title TEXT NOT NULL,
     description TEXT NOT NULL,
-    price INTEGER NOT NULL
+    price INTEGER NOT NULL,
+    quantity INTEGER NOT NULL
 )
 `
 db.exec(cart);
