@@ -1,10 +1,7 @@
-import path from 'path';
-import Database from 'better-sqlite3';
+import {Database as SQLiteDatabase} from 'better-sqlite3';
+import getDatabaseConnection from './db.ts';
 
-const dbPath = path.resolve('src/app/api/scripts', '../../../../data/database.db');
-
-const db = new Database(dbPath);
-
+let db: SQLiteDatabase = getDatabaseConnection();
 try {
   db.exec('DROP TABLE IF EXISTS items'); 
   db.exec('DROP TABLE IF EXISTS cart')
