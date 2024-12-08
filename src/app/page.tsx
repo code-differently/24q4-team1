@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <div>
       <main>
-        <div id="nav-div" className="flex justify-between w-full relative bg-[var(--zengreen)]">
+        <div id="nav-div" className="flex justify-between w-full relative bg-[var(--zenteal)]">
           <Image src={logo} alt="logo" className="flex-shrink-0 pl-4" width={150} />
           <NavLinks />
           <BurgerMenu />
