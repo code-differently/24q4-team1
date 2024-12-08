@@ -21,7 +21,7 @@ const items = `
     price INTEGER NOT NULL,
     images TEXT,
     category TEXT,
-    stock INTEGER,
+    stock INTEGER NOT NULL,
     rating REAL,
     discountPercentage REAL,
     brand TEXT,
@@ -34,7 +34,7 @@ const items = `
 db.exec(items);
 
 const cart = `
-  CREATE TABLE IF NOT EXISTS CART(
+  CREATE TABLE IF NOT EXISTS cart(
     id INTEGER PRIMARY KEY,
     title TEXT NOT NULL,
     description TEXT NOT NULL,
@@ -74,7 +74,7 @@ async function fetchDataAndStore() {
           price, 
           item.images ? JSON.stringify(item.images) : null,
           item.category ?? null, 
-          item.stock ?? null, 
+          item.stock, 
           item.rating ?? null,
           item.discountPercentage ?? null,
           item.brand ?? null, 
@@ -93,9 +93,10 @@ async function fetchDataAndStore() {
     console.log('Data fetched from API and inserted into the database successfully!');
   } catch (error) {
     console.error('Error fetching or inserting data:', error);
-  } finally {
+  }finally{
     db.close();
   }
 }
 
 fetchDataAndStore();
+export default db;
