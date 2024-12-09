@@ -6,15 +6,18 @@ import getDatabaseConnection from "../scripts/db";
 
 
 
-let db = getDatabaseConnection();
+const db = getDatabaseConnection();
 
 export async function GET(req: NextRequest) {
   try {
     const cartItems = db.prepare("SELECT * FROM cart").all();
+    if(req.body == null) {
+      return NextResponse.json({error: req.body + " not allowed"}, {status: 500});
+    }
     return NextResponse.json(cartItems, { status: 200 });
   } catch (error) {
     console.error("Error fetching cart items:", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ error: "Internal Server Error "}, { status: 500 });
   }
 }
 
