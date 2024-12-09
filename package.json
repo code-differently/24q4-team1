@@ -10,7 +10,6 @@
     "lint": "next lint",
     "db": "node --loader ts-node/esm src/app/api/scripts/db.ts",
     "db:clean": "node --loader ts-node/esm src/app/api/scripts/clear-db.ts"
-
   },
   "dependencies": {
     "@clerk/nextjs": "^6.7.1",
@@ -22,7 +21,8 @@
     "react-dom": "^18.2.0",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7",
-    "swagger-ui-react": "^5.18.2"
+    "swagger-ui-react": "^5.18.2",
+    "vercel": "^39.1.3"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.12",

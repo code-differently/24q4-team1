@@ -1,5 +1,3 @@
-import { NextRequest, NextResponse } from "next/server";
-
 /**
  * @swagger
  * /api/items/{id}:
@@ -144,29 +142,50 @@ import { NextRequest, NextResponse } from "next/server";
  *         description: Server error
  */
 
+import { NextRequest, NextResponse } from "next/server";
+import getDatabaseConnection from "../../scripts/db";
+import { Item } from "@/types/item";
+import { RawItem } from "@/types/rawItem";
+
+const db = getDatabaseConnection();
+
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const { id } = await params;
-  const apiUrl = `https://dummyjson.com/products/${id}`;
+
+  const { id } = params; // Retrieve the `id` parameter from the request
 
   try {
-    const response = await fetch(apiUrl);
+    // Query the database for the item and define its type
+    const rawItem = db
+      .prepare("SELECT * FROM items WHERE id = ?")
+      .get(id) as RawItem | undefined;
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch product: ${response.status}`);
+    if (rawItem) {
+      // "Un-stringify" JSON fields
+      const item: Item = {
+        ...rawItem,
+        images: rawItem.images ? JSON.parse(rawItem.images) : [],
+        reviews: rawItem.reviews ? JSON.parse(rawItem.reviews) : [],
+      };
+
+      // Return the un-stringified item as JSON
+      return NextResponse.json({ product: item });
+    } else {
+      // Return a 404 response if the item is not found
+      return NextResponse.json(
+        { error: "Item not found" },
+        { status: 404 }
+      );
     }
-
-    const data = await response.json();
-
-    return data
-      ? NextResponse.json({ product: data })
-      : NextResponse.json({ error: "Item not found" }, { status: 404 });
   } catch (error: unknown) {
     console.error("Error fetching product:", error);
+
+    // Return a 500 response if there is a server error
     return NextResponse.json(
-      { error: "Failed to fetch products", details: error },
+      { error: "Failed to fetch product", details: error },
       { status: 500 }
     );
   }
