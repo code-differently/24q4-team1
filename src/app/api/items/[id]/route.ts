@@ -1,5 +1,3 @@
-import { NextRequest, NextResponse } from "next/server";
-
 /**
  * @swagger
  * /api/items/{id}:
@@ -143,12 +141,17 @@ import { NextRequest, NextResponse } from "next/server";
  *       500:
  *         description: Server error
  */
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const { id } = await params;
+export async function GET(request: NextRequest) {
+  // Extract the dynamic "id" from the URL path
+  const { pathname } = new URL(request.url);
+  const id = pathname.split('/').pop(); // Extract id from the URL path
+
+  if (!id) {
+    return NextResponse.json({ error: "id parameter is missing" }, { status: 400 });
+  }
+
   const apiUrl = `https://dummyjson.com/products/${id}`;
 
   try {

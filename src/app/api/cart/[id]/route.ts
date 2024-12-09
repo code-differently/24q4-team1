@@ -1,21 +1,30 @@
-import { NextRequest, NextResponse } from "next/server";
-import getDatabaseConnection from "../../scripts/db";
+import { NextRequest, NextResponse } from 'next/server';
+import getDatabaseConnection from '../../scripts/db';
 
-const db = getDatabaseConnection();
+type RouteHandler = (
+  request: NextRequest
+) => Promise<NextResponse> | NextResponse;
 
-export async function GET(req:NextRequest,
-    { params }: { params: { id: string }}
-) {
-    try{
-        const {id} = await params;
-        const item = db.prepare(`SELECT * FROM cart WHERE id = ?`).get(id);
-        const query = db.prepare(`SELECT * FROM cart WHERE id = ${id}`).all();
-        if(!item){
-            return NextResponse.json({error : "item does not exist"}, {status:404})
+export const GET: RouteHandler = async (request) => {
+    const db = getDatabaseConnection();
+
+    try {
+        const url = new URL(request.url);
+        const id = url.pathname.split('/').pop(); // Extract id from the URL path
+
+        if (!id) {
+            return NextResponse.json({ error: "id parameter is missing" }, { status: 400 });
         }
-        return NextResponse.json(query, {status:200});
-    }catch(error){
-        console.error(error)
-        return NextResponse.json({error: "server error"}, {status:500});
+
+        const item = db.prepare(`SELECT * FROM cart WHERE id = ?`).get(id);
+
+        if (!item) {
+            return NextResponse.json({ error: "item does not exist" }, { status: 404 });
+        }
+
+        return NextResponse.json(item, { status: 200 });
+    } catch (error) {
+        console.error(error);
+        return NextResponse.json({ error: "server error" }, { status: 500 });
     }
-}
+};
