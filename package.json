@@ -1,8 +1,7 @@
 {
-  "name": "nextjs-blog",
+  "name": "nextjs-clerk-starter",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -10,25 +9,29 @@
     "lint": "next lint",
     "db": "node --loader ts-node/esm src/app/api/scripts/db.ts",
     "db:clean": "node --loader ts-node/esm src/app/api/scripts/clear-db.ts"
-
   },
   "dependencies": {
+    "@types/react-syntax-highlighter": "^15.5.13",
+    "autoprefixer": "^10.4.20",
+    "@types/node": "^22.9.0",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.1",
     "@clerk/nextjs": "^6.7.1",
+    "react": "19.0.0-rc-66855b96-20241106",
+    "react-dom": "19.0.0-rc-66855b96-20241106",
+    "prism-react-renderer": "^2.4.0",
     "axios": "^1.7.9",
     "better-sqlite3": "^11.6.0",
     "next": "15.0.3",
     "next-swagger-doc": "^0.4.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "sqlite": "^5.1.1",
-    "sqlite3": "^5.1.7",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.15",
+    "typescript": "^5.6.3",
     "swagger-ui-react": "^5.18.2"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.12",
     "@types/node": "20.17.9",
-    "@types/react": "^18.3.13",
-    "@types/react-dom": "^18",
     "@types/sqlite3": "^3.1.11",
     "@types/swagger-ui-react": "^4.18.3",
     "eslint": "^8",
@@ -36,6 +39,8 @@
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "@types/react": "^18",
+    "@types/react-dom": "^18"
   }
 }

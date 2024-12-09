@@ -1,9 +1,9 @@
 import {Database as SQLiteDatabase} from 'better-sqlite3';
-import getDatabaseConnection from './db.ts';
+import getDatabaseConnection from './db';
 
-let db: SQLiteDatabase = getDatabaseConnection();
+const db: SQLiteDatabase = getDatabaseConnection();
 try {
-  db.exec('DROP TABLE IF EXISTS items'); 
+  db.exec('DROP TABLE IF EXISTS items');
   db.exec('DROP TABLE IF EXISTS cart')
   console.log('Database cleared successfully.');
 } catch (error) {

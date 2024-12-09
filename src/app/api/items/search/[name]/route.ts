@@ -1,5 +1,3 @@
-import { NextRequest, NextResponse } from "next/server";
-
 /**
  * @swagger
  * /api/items/search/{name}:
@@ -144,15 +142,18 @@ import { NextRequest, NextResponse } from "next/server";
  *         description: Server error
  */
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { name: string } }
-) {
-  const { name } = params;
+import { NextRequest, NextResponse } from "next/server";
 
-  const apiUrl = `https://dummyjson.com/products/search?q=${encodeURIComponent(
-    name
-  )}`;
+export async function GET(request: NextRequest) {
+  // Extract the dynamic "name" from the URL path
+  const { pathname } = new URL(request.url);
+  const name = pathname.split('/').pop(); // Extract name from the URL path
+
+  if (!name) {
+    return NextResponse.json({ error: "name parameter is missing" }, { status: 400 });
+  }
+
+  const apiUrl = `https://dummyjson.com/products/search?q=${encodeURIComponent(name)}`;
 
   try {
     const response = await fetch(apiUrl);
