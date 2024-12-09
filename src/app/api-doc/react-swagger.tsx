@@ -1,10 +1,14 @@
-interface Props {
-  spec: Record<string, unknown>; // This matches the expected type for spec
-}
+'use client';
 
-const ReactSwagger: React.FC<Props> = ({ spec }) => {
-  // Use the spec data safely
-  return <div>{JSON.stringify(spec)}</div>;
+import SwaggerUI from 'swagger-ui-react';
+import 'swagger-ui-react/swagger-ui.css';
+
+type Props = {
+  spec: Record<string, any>,
 };
+
+function ReactSwagger({ spec }: Props) {
+  return <SwaggerUI spec={spec} />;
+}
 
 export default ReactSwagger;
