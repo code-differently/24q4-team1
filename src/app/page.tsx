@@ -7,8 +7,8 @@ import Hero from "./hero";
 export default function Home() {
   return (
     <div>
-      <main>
-        <div id="nav-div" className="flex justify-between w-full relative bg-[var(--zenteal)]">
+      <main className="relative">
+        <div id="nav-div" className="flex justify-between w-full absolute z-10">
           <Image src={logo} alt="logo" className="flex-shrink-0 pl-4" width={150} />
           <NavLinks />
           <BurgerMenu />

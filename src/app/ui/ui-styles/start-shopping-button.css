@@ -7,7 +7,7 @@
     margin-bottom: 8rem;
     padding: 4rem 100px;
     border-radius: 50%;
-    background-color: #e10531;
+    background: linear-gradient(to bottom right, #fe4a49, #c41e3a);
     transition: all 0.3s ease-in-out;
   
     &:hover {

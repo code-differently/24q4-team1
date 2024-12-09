@@ -15,6 +15,7 @@
     --background: #0a0a0a;
     --foreground: #ededed;
     --zenteal: #66b2b2;
+    --zengradientlight: linear-gradient(to bottom right, #e2f8ff, #81d4fa);
   }
 }
 
