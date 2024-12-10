@@ -6,9 +6,9 @@ import getDatabaseConnection from "../scripts/db";
 
 
 
-let db = getDatabaseConnection();
+const db = getDatabaseConnection();
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const cartItems = db.prepare("SELECT * FROM cart").all();
     return NextResponse.json(cartItems, { status: 200 });
@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const { id, quantity } = await req.json();
-    
+
     if (!id || !quantity) {
       return NextResponse.json({ error: "id and quantity are required." }, { status: 400 });
     }
@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   try {
     const { id, quantity } = await req.json();
-    
+
     if (!id || !quantity) {
       return NextResponse.json({ error: "itemId and quantity are required." }, { status: 400 });
     }

@@ -1,8 +1,8 @@
 import { createSwaggerSpec } from "next-swagger-doc";
 import "swagger-ui-react/swagger-ui.css";
 
-export const getApiDocs = async () => {
-  const spec = await createSwaggerSpec({
+export const getApiDocs = async (): Promise<Record<string, unknown>> => {
+  const spec = createSwaggerSpec({
     apiFolder: "src/app/api", // Adjust to your API folder
     definition: {
       openapi: "3.0.0",
@@ -13,5 +13,5 @@ export const getApiDocs = async () => {
       paths: {},
     },
   });
-  return spec;
+  return spec as Record<string, unknown>;
 };
