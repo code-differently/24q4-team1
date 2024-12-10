@@ -16,6 +16,10 @@ export default {
         sora: ["Sora", "sans-serif"],
         fira: ["Fira Sans", "sans-serif"],
       },
+      screens: {
+        "macairm2": "1460px",
+        "xl": "1880px",
+      }
     },
   },
   plugins: [],
