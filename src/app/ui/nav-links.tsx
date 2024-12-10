@@ -8,7 +8,7 @@ import {
   } from "@clerk/nextjs";
 export default function NavLinks() {
     return (
-        <div className="flex-grow content-center absolute z-10 translate-y-[7px] lg:translate-x-[1530px]">
+        <div className="flex-grow content-center absolute z-10 translate-y-[7px] lg:translate-x-[1530px] macairm2:translate-x-[1070px]">
             <ul className="flex justify-end gap-4 font-medium text-white">
                 <li>
                     <ClerkProvider>
