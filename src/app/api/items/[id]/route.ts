@@ -172,7 +172,7 @@ export async function GET(
       };
 
       // Return the un-stringified item as JSON
-      return NextResponse.json({ product: item });
+      return NextResponse.json(item, {status: 200});
     } else {
       // Return a 404 response if the item is not found
       return NextResponse.json(
