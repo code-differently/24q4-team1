@@ -8,6 +8,8 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import Home from "./page";
+import NavLinks from "./ui/nav-links";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,20 +33,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className="{`${geistSans.variable} ${geistMono.variable} antialiased`}"
         >
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
           {children}
         </body>
       </html>
-    </ClerkProvider>
   );
 }
