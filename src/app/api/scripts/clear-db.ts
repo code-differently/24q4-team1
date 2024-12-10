@@ -1,5 +1,5 @@
 import {Database as SQLiteDatabase} from 'better-sqlite3';
-import getDatabaseConnection from './db';
+import getDatabaseConnection from './db.ts';
 
 const db: SQLiteDatabase = getDatabaseConnection();
 try {
