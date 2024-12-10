@@ -141,21 +141,27 @@
  *       500:
  *         description: Server error
  */
+
 import { NextRequest, NextResponse } from "next/server";
+import getDatabaseConnection from "../../scripts/db";
+import { Item } from "@/types/item";
+import { RawItem } from "@/types/rawItem";
 
-export async function GET(request: NextRequest) {
-  // Extract the dynamic "id" from the URL path
-  const { pathname } = new URL(request.url);
-  const id = pathname.split('/').pop(); // Extract id from the URL path
+const db = getDatabaseConnection();
 
-  if (!id) {
-    return NextResponse.json({ error: "id parameter is missing" }, { status: 400 });
-  }
 
-  const apiUrl = `https://dummyjson.com/products/${id}`;
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+
+  const { id } = params; // Retrieve the `id` parameter from the request
 
   try {
-    const response = await fetch(apiUrl);
+    // Query the database for the item and define its type
+    const rawItem = db
+      .prepare("SELECT * FROM items WHERE id = ?")
+      .get(id) as RawItem | undefined;
 
     if (rawItem) {
       // "Un-stringify" JSON fields
