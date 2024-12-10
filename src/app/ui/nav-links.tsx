@@ -1,5 +1,4 @@
 import Link from "next/link";
-import CustomSignInButton from "./custom-sign-in-button";
 import {
     ClerkProvider,
     SignInButton,
@@ -14,8 +13,9 @@ export default function NavLinks() {
                 <li>
                     <ClerkProvider>
                         <SignedOut>
-                            <SignInButton className="rounded-full border border-solid border-transparent dark:hover:text-teal-800">Log In/Register</SignInButton>
-                            
+                            <SignInButton>
+                                <button className="rounded-full border border-solid border-transparent dark:hover:text-teal-800">Log In/Register</button>
+                            </SignInButton>
                         </SignedOut>
                         <SignedIn>
                             <UserButton />
