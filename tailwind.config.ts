@@ -18,6 +18,7 @@ export default {
       },
       screens: {
         "macairm2": "1460px",
+        "xl": "1880px",
       }
     },
   },
