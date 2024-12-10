@@ -1,9 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import getDatabaseConnection from '../../scripts/db';
-
-type RouteHandler = (
-  request: NextRequest
-) => Promise<NextResponse> | NextResponse;
+import { RouteHandler } from '@/types/routeHandler';
 
 export const GET: RouteHandler = async (request) => {
     const db = getDatabaseConnection();

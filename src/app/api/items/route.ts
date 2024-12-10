@@ -179,7 +179,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import getDatabaseConnection from "../scripts/db";
 import {Item} from '@/types/item';
-let db = getDatabaseConnection();
+const db = getDatabaseConnection();
 
 function fetchItems(){
   const items = db.prepare("SELECT * FROM items").all();

@@ -142,20 +142,23 @@
  *         description: Server error
  */
 
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import getDatabaseConnection from "../../scripts/db";
 import { Item } from "@/types/item";
 import { RawItem } from "@/types/rawItem";
+import { RouteHandler } from "@/types/routeHandler";
 
 const db = getDatabaseConnection();
 
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export const GET: RouteHandler = async (request) => {
 
-  const { id } = params; // Retrieve the `id` parameter from the request
+  const url = new URL(request.url);
+  const id = url.pathname.split('/').pop(); // Extract id from the URL path
+
+  if (!id) {
+      return NextResponse.json({ error: "id parameter is missing" }, { status: 400 });
+  }
 
   try {
     // Query the database for the item and define its type
