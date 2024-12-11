@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
 
 module.exports = {
   reactStrictMode: false,
+  images: {
+    domains: ['cdn.dummyjson.com'],  
+  },
 };
 
 export default nextConfig;

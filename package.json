@@ -10,19 +10,23 @@
     "lint": "next lint",
     "db": "node --loader ts-node/esm src/app/api/scripts/db.ts",
     "db:clean": "node --loader ts-node/esm src/app/api/scripts/clear-db.ts"
-
   },
   "dependencies": {
     "@clerk/nextjs": "^6.7.1",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.2.0",
+    "@mui/joy": "^5.0.0-beta.48",
     "axios": "^1.7.9",
     "better-sqlite3": "^11.6.0",
     "next": "15.0.3",
     "next-swagger-doc": "^0.4.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7",
-    "swagger-ui-react": "^5.18.2"
+    "swagger-ui-react": "^5.18.2",
+    "vercel": "^39.1.3"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.12",
@@ -31,6 +35,7 @@
     "@types/react-dom": "^18",
     "@types/sqlite3": "^3.1.11",
     "@types/swagger-ui-react": "^4.18.3",
+    "cypress": "^13.16.1",
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
     "postcss": "^8",

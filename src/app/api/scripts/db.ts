@@ -49,10 +49,23 @@ const cart = `
     title TEXT NOT NULL,
     description TEXT NOT NULL,
     price INTEGER NOT NULL,
-    quantity INTEGER NOT NULL
+    quantity INTEGER NOT NULL,
+    image TEXT NOT NULL
 )
 `
 db.exec(cart);
+
+const history = `
+  CREATE TABLE IF NOT EXISTS history(
+    id INTEGER PRIMARY KEY,
+    title TEXT NOT NULL,
+    description TEXT NOT NULL,
+    price INTEGER NOT NULL, 
+    quantity INTEGER NOT NULL, 
+    image TEXT NOT NULL
+  )
+`
+db.exec(history);
 }
 
 async function fetchDataAndStore() {
