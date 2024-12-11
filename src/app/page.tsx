@@ -3,6 +3,8 @@ import NavLinks from "./ui/nav-links";
 import BurgerMenu from "./ui/burger-menu";
 import logo from "./img-assets/zenshop-white.png";
 import Hero from "./hero";
+import CartViewTab from "./ui/cart-view-tab";
+
 export default function Home() {
   return (
     <div>
