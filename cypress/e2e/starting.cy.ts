@@ -3,5 +3,12 @@ describe("Testin page functionality",()=>{
         cy.viewport(2304,1310)
         cy.visit("/")
         cy.get('a[href="/cartpage"]').click();
-        cy.contains('button', 'Click here to buy now', {timeout:5000})})
+        cy.contains('button', 'Click here to buy now', {timeout:5000})
+    })
+    it("checks for ", ()=>{
+        cy.viewport(2304,1310)
+        cy.visit("/")
+        cy.get('a[href="/history"]').click();
+        cy.contains('button', 'Click here to buy now', {timeout:5000})
+    })
 })

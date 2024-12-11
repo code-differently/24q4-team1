@@ -7,16 +7,6 @@ const nextConfig: NextConfig = {
 };
 
 module.exports = {
-  experimental: {
-    turbopack: false
-  },
-  presets: [
-    'next/babel',          
-    '@babel/preset-typescript'  
-  ],
-  plugins: [
-    '@babel/plugin-transform-runtime'  
-  ],
   reactStrictMode: false,
   
   images: {
