@@ -1,5 +1,11 @@
 import Link from "next/link";
-
+import {
+    ClerkProvider,
+    SignInButton,
+    SignedIn,
+    SignedOut,
+    UserButton,
+  } from "@clerk/nextjs";
 export default function NavLinks() {
     return (
         <div className="flex-grow content-center">
@@ -13,8 +19,15 @@ export default function NavLinks() {
                  href="/products">Purchase History</Link>
             </li>
             <li>
-                <Link className="rounded-full border border-solid border-transparent dark:hover:bg-[#004c4c] h-10 px-4"
-                 href="/account">Login/Register</Link>
+            <ClerkProvider>
+            <SignedOut>
+            <SignInButton />
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+          </ClerkProvider>
+
             </li>
         </ul>
         </div>
