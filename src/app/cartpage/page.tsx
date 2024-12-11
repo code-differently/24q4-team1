@@ -54,10 +54,10 @@ export default function Page(){
       }, []);
     
     return(
-        <>
+        <div className='bg-black'>
         <NavLinks/> 
         <button onClick={Catcher}className='text-white'>
-              button
+          Click here to buy now
             </button>
         <div className='flex-1 flex-row'>
             <div className='flex-1'>
@@ -99,6 +99,6 @@ export default function Page(){
             </div>
             
         </div>
-        </>
+        </div>
     );
 } 

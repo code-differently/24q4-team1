@@ -19,26 +19,28 @@ export async function POST(req: NextRequest){
     }
     const historyItem = db.prepare('SELECT * FROM history WHERE id = ?').get(id) as CartItem | undefined;
     if(!historyItem){
-        const history = db.prepare(`
+        db.prepare(`
             INSERT INTO history (id, title, description, price, quantity, image)
-                VALUES (?, ?, ?, ?, ?, ?)       
-            
+                VALUES (?, ?, ?, ?, ?, ?)
             `).run(id, cartitem?.title, cartitem?.description, cartitem?.price, 1, cartitem?.image)
-            db.prepare('UPDATE cart SET quantity = quantity - 1');
-            if(cartitem.quantity <= 0){
+            db.prepare('UPDATE cart SET quantity = quantity - 1 WHERE id = ?').run(id);
+            const updatedCart = db.prepare(`SELECT * FROM cart WHERE id = ?`).get(id) as CartItem;
+            if(updatedCart.quantity <= 0){
                 db.prepare(`DELETE FROM cart WHERE id = ?`).run(id);
         
             }
             return NextResponse.json("created table with content");
     }
-    if(cartitem.quantity <= 0){
+
+    if(historyItem.quantity <= 0){
         db.prepare(`DELETE FROM cart WHERE id = ?`).run(id);
 
     }
     if(historyItem.quantity > 0){
         db.prepare(`UPDATE history SET quantity = quantity + 1 WHERE id = ?`).run(id);
         db.prepare(`UPDATE cart SET quantity = quantity - 1 WHERE id = ? `).run(id);
-        if(cartitem.quantity <= 0){
+        const updatedCart = db.prepare(`SELECT * FROM cart WHERE id = ?`).get(id) as CartItem;
+        if(updatedCart.quantity <= 0){
             db.prepare('DELETE FROM cart WHERE id = ?').run(id);
             return NextResponse.json("cleared table");
         }

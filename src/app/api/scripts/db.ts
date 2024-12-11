@@ -38,7 +38,7 @@ const items = `
     sku TEXT,
     warrantyInformation TEXT,
     shippingInformation TEXT,
-    reviews TEXT  
+    reviews TEXT
   )
 `;
 db.exec(items);
@@ -69,7 +69,7 @@ db.exec(history);
 }
 
 async function fetchDataAndStore() {
-  let db = getDatabaseConnection();
+  const db = getDatabaseConnection();
   try {
     const response = await axios.get('https://dummyjson.com/products?limit=0');
 
@@ -81,7 +81,7 @@ async function fetchDataAndStore() {
 
     const insertData = db.prepare(`
       INSERT OR IGNORE INTO items (
-        id, title, description, price, images, category, stock, rating, 
+        id, title, description, price, images, category, stock, rating,
         discountPercentage, brand, sku, warrantyInformation, shippingInformation, reviews
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
@@ -94,19 +94,19 @@ async function fetchDataAndStore() {
 
         insertData?.run(
           item.id,
-          item.title, 
-          item.description, 
-          price, 
+          item.title,
+          item.description,
+          price,
           item.images ? JSON.stringify(item.images) : null,
-          item.category ?? null, 
-          item.stock, 
+          item.category ?? null,
+          item.stock,
           item.rating ?? null,
           item.discountPercentage ?? null,
-          item.brand ?? null, 
-          item.sku ?? null, 
-          item.warrantyInformation ?? null, 
+          item.brand ?? null,
+          item.sku ?? null,
+          item.warrantyInformation ?? null,
           item.shippingInformation ?? null,
-          item.reviews ? JSON.stringify(item.reviews) : null 
+          item.reviews ? JSON.stringify(item.reviews) : null
         );
 
         console.log(`Inserted item with ID: ${item.id}`);

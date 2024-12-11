@@ -1,7 +1,7 @@
 'use client'
 import { CartItem } from "@/types/cartItem";
 import { NextResponse } from "next/server";
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image";
 import Card from "@mui/joy/Card";
 import NavLinks from "../ui/nav-links";
@@ -25,7 +25,7 @@ export default function Page(){
         fetchUsers();
       }, []);
     return(
-        <>
+        <div className="bg-black">
         <NavLinks/>
         <div>
             {data.map((item) => {
@@ -37,10 +37,9 @@ export default function Page(){
               }
             } catch (error) {
               console.error('Error parsing image:', error);
-            }
-
-            console.log('Image src:', imageSrc); 
+            } 
             return (
+
               <Card key={item.id} sx={{
                 width:350,
                 height:500
@@ -64,6 +63,6 @@ export default function Page(){
               );
             })}
         </div>
-        </>
+        </div>
     )
 }

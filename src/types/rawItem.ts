@@ -1,4 +1,4 @@
-export type Item = {
+export type RawItem = {
   id: number;
   title: string;
   name: string;
@@ -12,12 +12,6 @@ export type Item = {
   sku?: string;
   warrantyInformation?: string;
   shippingInformation?: string;
-  reviews?: Array<{
-    rating: number;
-    comment: string;
-    date: string;
-    reviewerName: string;
-    reviewerEmail: string;
-  }>;
-  images: string[];
+  reviews?: string;
+  images?: string;
 };

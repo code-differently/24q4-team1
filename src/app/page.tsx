@@ -8,7 +8,7 @@ export default function Home() {
     <div>
       <main className="relative">
         <div id="nav-div" className="flex justify-between w-full absolute z-10">
-        <NavLinks/> 
+          <NavLinks/> 
           <Image src={logo} alt="logo" className="flex-shrink-0 pl-4" width={150} />
           <BurgerMenu />
         </div>

@@ -12,6 +12,14 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        sora: ["Sora", "sans-serif"],
+        fira: ["Fira Sans", "sans-serif"],
+      },
+      screens: {
+        "macairm2": "1460px",
+        "xl": "1880px",
+      }
     },
   },
   plugins: [],
