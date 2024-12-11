@@ -224,6 +224,9 @@ export async function PATCH(req: NextRequest) {
       db.prepare("UPDATE items SET stock = stock + ? WHERE id = ?").run(cartItem.quantity, id);
 
       return NextResponse.json({ message: "Item removed from cart." }, { status: 200 });
+      db.prepare("UPDATE items SET stock = stock + ? WHERE id = ?").run(cartItem.quantity, id);
+
+      return NextResponse.json({ message: "Item removed from cart." }, { status: 200 });
     } else {
       db.prepare("UPDATE cart SET quantity = ? WHERE id = ?").run(newQuantity, id);
 
@@ -238,6 +241,7 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json({ message: "Cart item quantity updated.", cartItem: updatedCartItem }, { status: 200 });
     }
   } catch (error) {
+    console.error("Error updating cart item quantity:", error);
     console.error("Error updating cart item quantity:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
