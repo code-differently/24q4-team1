@@ -177,41 +177,55 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
+import getDatabaseConnection from "../scripts/db";
+import {Item} from '@/types/item';
+const db = getDatabaseConnection();
 
-interface Product {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  images: string[];
-  [key: string]: string | number | string[] | undefined; // Allow additional fields
+function fetchItems(){
+  const items = db.prepare("SELECT * FROM items").all();
+  return items
 }
 
-const EXTERNAL_API_URL = "https://dummyjson.com/products?limit=0";
+function addItemToDB(item: Item){
 
-async function fetchExternalProducts(): Promise<Product[]> {
-  const response = await fetch(EXTERNAL_API_URL);
+  console.log(item);
 
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
+  const insertData = db.prepare(`
+    INSERT OR IGNORE INTO items (
+      id, title, description, price, images, category, stock, rating,
+      discountPercentage, brand, sku, warrantyInformation, shippingInformation, reviews
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+  const values = [
+    item.id,
+    item.title,
+    item.description,
+    item.price,
+    JSON.stringify(item.images), // Convert arrays or objects to a string for storage
+    item.category,
+    item.stock,
+    item.rating,
+    item.discountPercentage,
+    item.brand,
+    item.sku,
+    item.warrantyInformation,
+    item.shippingInformation,
+    JSON.stringify(item.reviews) // Convert arrays or objects to a string for storage
+  ];
 
-  const data = await response.json();
-  return data.products;
+  insertData.run(values);
+
+
 }
-
-const products: Product[] = [];
 
 export async function GET() {
   try {
-    const externalProducts = await fetchExternalProducts();
-    const allProducts = [...externalProducts, ...products];
-
-    return NextResponse.json({ products: allProducts });
+    const items = fetchItems();
+    return NextResponse.json(items, {status: 200});
   } catch (error) {
-    console.error("Error fetching products:", error);
+    console.error("Error fetching items:", error);
     return NextResponse.json(
-      { message: "Failed to fetch products" },
+      { message: "Failed to fetch items" },
       { status: 500 }
     );
   }
@@ -219,13 +233,13 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    const productData = await request.json();
+    const itemData = await request.json();
 
     if (
-      !productData.title ||
-      !productData.description ||
-      !productData.price ||
-      !productData.images?.length
+      !itemData.title ||
+      !itemData.description ||
+      !itemData.price ||
+      !itemData.images?.length
     ) {
       return NextResponse.json(
         { error: "Missing required fields" },
@@ -233,23 +247,24 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const externalProducts = await fetchExternalProducts();
-    const externalMaxId = Math.max(...externalProducts.map((p) => p.id), 0);
-    const internalMaxId = Math.max(...products.map((p) => p.id), 0);
-    const newId = Math.max(externalMaxId, internalMaxId) + 1;
 
-    const newProduct: Product = {
-      id: newId,
-      title: productData.title,
-      description: productData.description,
-      price: productData.price,
-      images: productData.images,
-      ...productData,
+
+    const items = fetchItems();
+    const itemMaxId = Math.max(...(items as Item[]).map((item) => item.id), 0);
+
+    const newItem: Item = {
+      id: itemMaxId + 1,
+      title: itemData.title,
+      description: itemData.description,
+      price: itemData.price,
+      images: itemData.images,
+      ...itemData,
     };
 
-    products.push(newProduct);
+    addItemToDB(newItem);
 
-    return NextResponse.json({ product: newProduct }, { status: 201 });
+
+    return NextResponse.json(newItem, { status: 200 });
   } catch (error) {
     console.error("Error adding product:", error);
     return NextResponse.json(
