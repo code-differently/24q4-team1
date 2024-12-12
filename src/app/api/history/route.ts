@@ -6,8 +6,8 @@ const db = getDatabaseConnection();
 
 export async function GET(){
     const all = db.prepare(`SELECT * FROM history`).all();
-    if(all == null){
-        return NextResponse.json("nah")
+    if(!all){
+        return NextResponse.json("this is invalid");
     }
     return NextResponse.json(all);
 }

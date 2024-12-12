@@ -224,9 +224,6 @@ export async function PATCH(req: NextRequest) {
       db.prepare("UPDATE items SET stock = stock + ? WHERE id = ?").run(cartItem.quantity, id);
 
       return NextResponse.json({ message: "Item removed from cart." }, { status: 200 });
-      db.prepare("UPDATE items SET stock = stock + ? WHERE id = ?").run(cartItem.quantity, id);
-
-      return NextResponse.json({ message: "Item removed from cart." }, { status: 200 });
     } else {
       db.prepare("UPDATE cart SET quantity = ? WHERE id = ?").run(newQuantity, id);
 
