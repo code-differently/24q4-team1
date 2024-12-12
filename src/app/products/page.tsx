@@ -19,10 +19,10 @@ export default function Page() {
                 return NextResponse.json(error);
             }
         };
-    
+
         fetchProducts();
-    })
-    
+    }, [])
+
     return (
         <>
         <NavLinks/>
