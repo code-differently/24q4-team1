@@ -49,15 +49,15 @@ export default function Page() {
                 }
                 const img = item.images = JSON.parse(item.images);
                 return (
-
-                    <div className="flex flex-col bg-black text-white gap-2" key={item.id}>
+                    
+                    <div className="flex align-center justify-center flex-col bg-black text-white gap-2" key={item.id}>
                         <h1>{item.id}</h1>
                         <h1>{item.name}</h1>
-                        <p>{item.price}</p>
+                        <p>${item.price} each</p>
                         <p>{item.description}</p>
                         <p>there are {item.stock} of this item</p>
                         <img className="w-96 h-96" src={img[0]} alt={item.name} />
-                        <button onClick={() => {buyNow(item.id)}}>Buy Now</button>
+                        <button className="bg-gradient-to-br from-teal-700 to-teal-800 w-[100%] hover:text-gray-300" onClick={() => {buyNow(item.id)}}>Buy Now</button>
                     </div>
 
                 );
