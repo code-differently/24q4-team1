@@ -15,7 +15,7 @@ describe("Testin page functionality",()=>{
               expect(response.body.cartItem).to.have.property("description", "The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.")
             }
           )
-        cy.contains('button', 'Click here to buy now', {timeout:5000}).click();
+        cy.contains('button', 'Click here to buy one of each item now', {timeout:5000}).click();
         cy.get('a[href="/history"]').click();
         cy.contains('Essence Mascara Lash Princess', {timeout:5000});
     })
@@ -24,8 +24,8 @@ describe("Testin page functionality",()=>{
         cy.get('a[href="/history"]').click();
         cy.url().should('eq', `${Cypress.config().baseUrl}/history`);
         cy.get('a[href="/cartpage"]').click();
-        cy.url().should('eq', `${Cypress.config().baseUrl}cartpage`);
+        cy.url().should('eq', `${Cypress.config().baseUrl}/cartpage`);
         cy.contains('a', 'Home').click();
-        cy.url().should('eq', `${Cypress.config().baseUrl}`);
+        cy.url().should('eq', `${Cypress.config().baseUrl}/`);
     })
 })
