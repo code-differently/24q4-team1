@@ -12,7 +12,7 @@ export default async function ItemDetailsPage({ params }: ItemDetailsPageProps) 
   const { id } = params;
 
 
-  const response = await fetch(`http:localhost:3000/api/history/${id}`);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/history/${id}`);
   if (!response.ok) {
     return (
       <div>

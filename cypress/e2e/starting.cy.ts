@@ -7,6 +7,7 @@ describe("Testin page functionality",()=>{
     })
     it("checks for adding items to cart", ()=>{
         cy.get('a[href="/cartpage"]').click();
+
         cy.request('POST', 'http://localhost:3000/api/cart', { id: 1 }).then(
             (response) => {
                 console.log(response.body)
@@ -21,10 +22,10 @@ describe("Testin page functionality",()=>{
     it("checks for proper navigation", ()=>{
         cy.visit("/")
         cy.get('a[href="/history"]').click();
-        cy.url().should('eq', 'http://localhost:3000/history');
+        cy.url().should('eq', `${Cypress.config().baseUrl}/history`);
         cy.get('a[href="/cartpage"]').click();
-        cy.url().should('eq', 'http://localhost:3000/cartpage');
+        cy.url().should('eq', `${Cypress.config().baseUrl}cartpage`);
         cy.contains('a', 'Home').click();
-        cy.url().should('eq', 'http://localhost:3000/');
+        cy.url().should('eq', `${Cypress.config().baseUrl}`);
     })
 })
