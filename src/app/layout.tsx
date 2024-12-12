@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import {
+  ClerkProvider
+} from "@clerk/nextjs";
+
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -12,12 +17,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-      <html lang="en">
+      <ClerkProvider>
+      <html lang="en" className="bg-black">
         <body
           className="{`${geistSans.variable} ${geistMono.variable} antialiased`}"
         >
           {children}
         </body>
       </html>
+      </ClerkProvider>
+
   );
 }

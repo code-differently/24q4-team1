@@ -46,6 +46,7 @@
 import { NextResponse } from 'next/server';
 import getDatabaseConnection from '../../scripts/db';
 import { RouteHandler } from '@/types/routeHandler';
+import { CartItem } from '@/types/cartItem';
 
 export const GET: RouteHandler = async (request) => {
     const db = getDatabaseConnection();
@@ -65,6 +66,32 @@ export const GET: RouteHandler = async (request) => {
         }
 
         return NextResponse.json(item, { status: 200 });
+    } catch (error) {
+        console.error(error);
+        return NextResponse.json({ error: "server error" }, { status: 500 });
+    }
+};
+
+export const DELETE: RouteHandler = async (request) => {
+    const db = getDatabaseConnection();
+    const url = new URL(request.url);
+    const id = url.pathname.split('/').pop(); 
+
+    if (!id) {
+        return NextResponse.json({ error: "id parameter is missing" }, { status: 400 });
+    }
+
+    try {
+        const item = db.prepare(`SELECT * FROM cart WHERE id = ?`).get(id);
+        if (!item) {
+            return NextResponse.json({ error: "item does not exist" }, { status: 404 });
+        }
+        const deleted = db.prepare(`DELETE FROM cart WHERE id = ?`).run(id);
+        const updatedItem = db.prepare(`SELECT * FROM cart WHERE id = ?`).get(id) as CartItem;
+        if(updatedItem.quantity <= 0){
+            db.prepare(`DELETE FROM cart WHERE id = ?`).run(id);
+        }
+        return NextResponse.json(deleted);
     } catch (error) {
         console.error(error);
         return NextResponse.json({ error: "server error" }, { status: 500 });

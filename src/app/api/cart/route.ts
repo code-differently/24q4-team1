@@ -46,10 +46,6 @@
  *                 type: integer
  *                 description: The ID of the item to add.
  *                 example: 1
- *               quantity:
- *                 type: integer
- *                 description: The quantity of the item to add.
- *                 example: 2
  *     responses:
  *       200:
  *         description: Item added to the cart successfully.
@@ -150,10 +146,10 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
-    const { id, quantity } = await req.json();
-
-    if (!id || !quantity) {
-      return NextResponse.json({ error: "id and quantity are required." }, { status: 400 });
+    const { id } = await req.json();
+    
+    if (!id) {
+      return NextResponse.json({ error: "id is required." }, { status: 400 });
     }
 
     const item = db.prepare("SELECT * FROM items WHERE id = ?").get(id) as Item | undefined;
@@ -161,31 +157,28 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Item does not exist." }, { status: 400 });
     }
 
-    if (item.stock < quantity) {
+    if (item.stock <= 0) {
       return NextResponse.json({ error: "Insufficient stock." }, { status: 400 });
     }
 
     const cartItem = db.prepare("SELECT * FROM cart WHERE id = ?").get(id);
     if (cartItem) {
-      db.prepare("UPDATE cart SET quantity = quantity + ? WHERE id = ?").run(quantity, id);
+      db.prepare("UPDATE cart SET quantity = quantity + 1 WHERE id = ?").run(id);
     } else {
       db.prepare(`
-        INSERT INTO cart (id, title, description, price, quantity)
-        VALUES (?, ?, ?, ?, ?)
-      `).run(id, item.title, item.description, item.price, quantity);
+        INSERT INTO cart (id, title, description, price, quantity, image)
+        VALUES (?, ?, ?, ?, ?, ?)
+      `).run(id, item.title, item.description, item.price, 1, item.images);
     }
-
-    db.prepare("UPDATE items SET stock = stock - ? WHERE id = ?").run(quantity, id);
-
-    // Retrieve the updated cart item
+    db.prepare("UPDATE items SET stock = stock - 1 WHERE id = ?").run(id);
     const updatedCartItem = db.prepare("SELECT * FROM cart WHERE id = ?").get(id);
-
     return NextResponse.json({ message: "Item added to cart.", cartItem: updatedCartItem }, { status: 200 });
   } catch (error) {
     console.error("Error adding item to cart:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
+
 
 export async function DELETE(req: NextRequest) {
   try {
@@ -212,13 +205,14 @@ export async function DELETE(req: NextRequest) {
 
 export async function PATCH(req: NextRequest) {
   try {
-    const { id, quantityChange } = await req.json(); // `quantityChange` can be positive or negative
+    const { id, quantityChange } = await req.json(); 
 
     if (!id || typeof quantityChange !== "number") {
       return NextResponse.json({ error: "Item ID and quantityChange are required." }, { status: 400 });
     }
-
+    
     const cartItem = db.prepare("SELECT * FROM cart WHERE id = ?").get(id) as CartItem | undefined;
+    
     if (!cartItem) {
       return NextResponse.json({ error: "Item is not in the cart." }, { status: 400 });
     }
@@ -226,13 +220,11 @@ export async function PATCH(req: NextRequest) {
     const newQuantity = cartItem.quantity + quantityChange;
 
     if (newQuantity < 1) {
-      // Call the DELETE endpoint logic
       db.prepare("DELETE FROM cart WHERE id = ?").run(id);
       db.prepare("UPDATE items SET stock = stock + ? WHERE id = ?").run(cartItem.quantity, id);
 
       return NextResponse.json({ message: "Item removed from cart." }, { status: 200 });
     } else {
-      // Update the cart with the new quantity
       db.prepare("UPDATE cart SET quantity = ? WHERE id = ?").run(newQuantity, id);
 
       if (quantityChange > 0) {
@@ -241,12 +233,12 @@ export async function PATCH(req: NextRequest) {
         db.prepare("UPDATE items SET stock = stock + ? WHERE id = ?").run(-quantityChange, id);
       }
 
-      // Retrieve the updated cart item
       const updatedCartItem = db.prepare("SELECT * FROM cart WHERE id = ?").get(id);
 
       return NextResponse.json({ message: "Cart item quantity updated.", cartItem: updatedCartItem }, { status: 200 });
     }
   } catch (error) {
+    console.error("Error updating cart item quantity:", error);
     console.error("Error updating cart item quantity:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }

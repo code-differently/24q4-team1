@@ -193,3 +193,27 @@ export const GET: RouteHandler = async (request) => {
     );
   }
 }
+
+export const DELETE: RouteHandler = async (request) => {
+  const { id } = await request.json();
+
+  try {
+    const item = db.prepare(`SELECT * FROM items WHERE id = ?`).get(id) as Item | undefined;
+    if(!id || !item) {
+      return NextResponse.json({ error: "id parameter is missing" }, { status: 400 });
+    }
+    if(item.stock <= 0) {
+      return NextResponse.json({ error: "Insufficient stock" }, { status: 400 });
+    }
+    const deleted = db.prepare(`UPDATE items SET quantity = quantity - 1 FROM items WHERE id = ?`).run(id);
+    const updatedItem = db.prepare(`SELECT * FROM items WHERE id = ?`).get(id) as Item;
+    if(updatedItem.stock <= 0) {
+      db.prepare(`DELETE FROM items WHERE id = ?`).run(id);
+    }
+    return NextResponse.json(deleted);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: "server error" }, { status: 500 });
+  }
+
+};

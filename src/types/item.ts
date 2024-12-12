@@ -19,5 +19,5 @@ export type Item = {
     reviewerName: string;
     reviewerEmail: string;
   }>;
-  images?: string[];
+  images: string[];
 };
