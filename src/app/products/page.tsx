@@ -43,11 +43,11 @@ export default function Page() {
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({id:item.id}),
+                        body: JSON.stringify({id:id}),
                     })
 
                 }
-                const img = item.images = JSON.parse(item.images);
+                // const img = item.images = JSON.parse(item.images);
                 return (
 
                     <div className="flex flex-col bg-black text-white gap-2" key={item.id}>
@@ -56,7 +56,7 @@ export default function Page() {
                         <p>{item.price}</p>
                         <p>{item.description}</p>
                         <p>there are {item.stock} of this item</p>
-                        <img className="w-96 h-96" src={img[0]} alt={item.name} />
+                        {/* <img className="w-96 h-96" src={img[0]} alt={item.name} /> */}
                         <button onClick={() => {buyNow(item.id)}}>Buy Now</button>
                     </div>
 

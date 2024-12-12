@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import NavLinks from '../ui/nav-links';
-import Image from 'next/image'; 
+import Image from 'next/image';
 
 
 
@@ -52,13 +52,13 @@ export default function Page(){
             return NextResponse.json(error);
           }
         };
-    
+
         fetchItems();
       }, []);
-    
+
     return(
         <div className='bg-black'>
-        <NavLinks/> 
+        <NavLinks/>
         <button onClick={Catcher}className='text-white'>
           Click here to buy one of each item now
             </button>
@@ -67,15 +67,13 @@ export default function Page(){
             {data.map((item) => {
             let imageSrc = null;
             try {
-              const parsedImage = JSON.parse(item.image); 
-              if (Array.isArray(parsedImage) && parsedImage[0]) {
-                imageSrc = parsedImage[0];  
-              }
+              const parsedImage = JSON.parse(item.image[0]);
+              imageSrc = parsedImage[0];
             } catch (error) {
               console.error('Error parsing image:', error);
             }
 
-            console.log('Image src:', imageSrc); 
+            console.log('Image src:', imageSrc);
             function deleteItem(id: number) {
               fetch(`/api/cart/${id}`, {
                 method: 'DELETE',
@@ -103,14 +101,14 @@ export default function Page(){
                     layout='responsive'
                   />
                 ) : (
-                  <p>No image available</p>  
+                  <p>No image available</p>
                 )}
               </Card>
             );
           })}
             </div>
-            
+
         </div>
         </div>
     );
-} 
+}

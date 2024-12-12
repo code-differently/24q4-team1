@@ -21,7 +21,7 @@ export default function Page(){
             return NextResponse.json(error);
           }
         };
-    
+
         fetchUsers();
       }, []);
     return(
@@ -32,13 +32,11 @@ export default function Page(){
             {data.map((item) => {
             let imageSrc = null;
             try {
-              const parsedImage = JSON.parse(item.image); 
-              if (Array.isArray(parsedImage) && parsedImage[0]) {
-                imageSrc = parsedImage[0];  
-              }
+              const parsedImage = JSON.parse(item.image[0]);
+              imageSrc = parsedImage[0];
             } catch (error) {
               console.error('Error parsing image:', error);
-            } 
+            }
             return (
 
               <Card key={item.id} sx={{
@@ -51,7 +49,7 @@ export default function Page(){
                 <p>you bought: {item.quantity}</p>
                 <p>total bought: ${(item.price * item.quantity).toFixed(2)}</p>
                 <a href={`/history/${item.id}`}>View in Cart</a>
-                
+
                 {imageSrc ? (
                   <Image
                     src={imageSrc}
@@ -61,7 +59,7 @@ export default function Page(){
                     layout='responsive'
                   />
                 ) : (
-                  <p>No image available</p>  
+                  <p>No image available</p>
                 )}
               </Card>
               );
