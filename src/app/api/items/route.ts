@@ -246,9 +246,6 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-
-
-
     const items = fetchItems();
     const itemMaxId = Math.max(...(items as Item[]).map((item) => item.id), 0);
 
@@ -272,4 +269,9 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
+}
+export async function DELETE(req: NextRequest){
+  const {id} = await req.json();
+  const del = db.prepare(`DELETE FROM items WHERE id = ?`).run(id);
+  return NextResponse.json(del);
 }

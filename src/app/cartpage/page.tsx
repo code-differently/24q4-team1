@@ -33,6 +33,9 @@ const Catcher = async () => {
   } catch (error) {
       console.error("Error in Catcher:", error);
   }
+  window.location.reload();
+
+
 };
 export default function Page(){
     const [data, setData] = useState<CartItem[]>([]);
@@ -57,7 +60,7 @@ export default function Page(){
         <div className='bg-black'>
         <NavLinks/> 
         <button onClick={Catcher}className='text-white'>
-          Click here to buy now
+          Click here to buy one of each item now
             </button>
         <div className='flex-1 flex-row'>
             <div className='flex-1'>
@@ -73,15 +76,24 @@ export default function Page(){
             }
 
             console.log('Image src:', imageSrc); 
+            function deleteItem(id: number) {
+              fetch(`/api/cart/${id}`, {
+                method: 'DELETE',
+              }).then(() => {
+                window.location.reload();
+              });
+            }
             return (
               <Card key={item.id} sx={{
                 width:350,
-                height:500
+                height:600
               }}>
+                <button className='bg-red-500 rounded' onClick={() => deleteItem(item.id)}>Delete Item</button>
                 <p>{item.title}</p>
                 <p>{item.description.split('').slice(0, 150)}...</p>
-                <p>{item.price}</p>
-                
+                <p>Quantity: {item.quantity}</p>
+                <p>total price: {(item.price * item.quantity).toFixed(2)}</p>
+                <p>${item.price} each</p>
                 {imageSrc ? (
                   <Image
                     src={imageSrc}

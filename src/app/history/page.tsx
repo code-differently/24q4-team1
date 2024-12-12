@@ -28,6 +28,7 @@ export default function Page(){
         <div className="bg-black">
         <NavLinks/>
         <div>
+          <h1>Purchase History</h1>
             {data.map((item) => {
             let imageSrc = null;
             try {
@@ -42,11 +43,14 @@ export default function Page(){
 
               <Card key={item.id} sx={{
                 width:350,
-                height:500
+                height:1,
               }}>
                 <p>{item.title}</p>
                 <p>{item.description.split('').slice(0, 150)}...</p>
-                <p>{item.price}</p>
+                <p>${item.price} each</p>
+                <p>you bought: {item.quantity}</p>
+                <p>total bought: ${(item.price * item.quantity).toFixed(2)}</p>
+                <a href={`/history/${item.id}`}>View in Cart</a>
                 
                 {imageSrc ? (
                   <Image
