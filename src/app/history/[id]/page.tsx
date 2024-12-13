@@ -10,10 +10,8 @@ interface ItemDetailsPageProps {
 }
 
 export default async function ItemDetailsPage({ params }: ItemDetailsPageProps) {
-  // Wait for the params promise to resolve
   const { id } = await params;
 
-  // Fetch the item based on the dynamic id
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/history/${id}`);
   if (!response.ok) {
     return (
@@ -26,13 +24,12 @@ export default async function ItemDetailsPage({ params }: ItemDetailsPageProps) 
 
   const item: CartItem = await response.json();
 
-  let imageSrc: string | null = null;
-  try {
-    const parsedImage = JSON.parse(item.image[0]); // Assuming item.image is a JSON string
-    imageSrc = parsedImage; // If it's a single string, use it directly
-  } catch (error) {
-    console.error("Error parsing image:", error);
+  if(Array.isArray(item.image)) {
+    console.error("item.image is an array:", item.image);
+    return null
   }
+
+  const img = item.image;
 
   return (
     <>
@@ -49,17 +46,14 @@ export default async function ItemDetailsPage({ params }: ItemDetailsPageProps) 
           <p>${item.price} each</p>
           <p>Quantity bought: {item.quantity}</p>
           <p>Total spent: ${(item.price * item.quantity).toFixed(2)}</p>
-          {imageSrc ? (
             <Image
-              src={imageSrc}
+              src={img}
               alt={item.title}
               width={100}
               height={100}
               layout="responsive"
             />
-          ) : (
-            <p>No image available</p>
-          )}
+
         </Card>
       </div>
     </>

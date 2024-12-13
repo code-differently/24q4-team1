@@ -90,7 +90,6 @@ export default function Page(){
                 <p>Quantity: {item.quantity}</p>
                 <p>total price: {(item.price * item.quantity).toFixed(2)}</p>
                 <p>${item.price} each</p>
-                
                   <Image
                     src={img[0]}
                     alt={item.title}
@@ -98,12 +97,10 @@ export default function Page(){
                     height={100}
                     layout='responsive'
                   />
-                
               </Card>
             );
           })}
             </div>
-
         </div>
         </div>
     );
