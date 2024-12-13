@@ -30,13 +30,11 @@ export default function Page(){
         <div>
           <h1>Purchase History</h1>
             {data.map((item) => {
-            let imageSrc = null;
-            try {
-              const parsedImage = JSON.parse(item.image[0]);
-              imageSrc = parsedImage[0];
-            } catch (error) {
-              console.error('Error parsing image:', error);
-            }
+              if(Array.isArray(item.image)) {
+                console.error("item.image is an array:", item.image);
+                return null
+              }
+            const img= JSON.parse(item.image);
             return (
 
               <Card key={item.id} sx={{
@@ -49,18 +47,7 @@ export default function Page(){
                 <p>you bought: {item.quantity}</p>
                 <p>total bought: ${(item.price * item.quantity).toFixed(2)}</p>
                 <a href={`/history/${item.id}`}>View in Cart</a>
-
-                {imageSrc ? (
-                  <Image
-                    src={imageSrc}
-                    alt={item.title}
-                    width={100}
-                    height={100}
-                    layout='responsive'
-                  />
-                ) : (
-                  <p>No image available</p>
-                )}
+                <Image src={img[0]} alt='item.title' width={200} height={200} />
               </Card>
               );
             })}
