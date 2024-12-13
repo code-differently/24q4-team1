@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 import { useEffect, useState } from "react";
 import { Item } from "../../types/item";
 import NavLinks from "../ui/nav-links";
-import Image from 'next/image';
 
 export default function Page() {
     const [data, setData] = useState<Item[]>([]);
@@ -45,16 +44,16 @@ export default function Page() {
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify({id:id}),
-                    })                
+                    })
                 }
-                
+
                     if(Array.isArray(item.images)) {
                         console.error("item.images is an array:", item.images);
                         return null;
                     }
                     const img = JSON.parse(item.images);
                 return (
-                    
+
                     <div className="flex align-center justify-center flex-col bg-black text-white gap-2" key={item.id}>
                         <h1>{item.id}</h1>
                         <h1>{item.name}</h1>
