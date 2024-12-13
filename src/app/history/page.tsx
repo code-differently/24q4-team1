@@ -46,7 +46,7 @@ export default function Page(){
                 <p>${item.price} each</p>
                 <p>you bought: {item.quantity}</p>
                 <p>total bought: ${(item.price * item.quantity).toFixed(2)}</p>
-                <a href={`/history/${item.id}`}>View in Cart</a>
+                <a href={`/history/${item.id}`}>View Item</a>
                 <Image src={img[0]} alt='item.title' width={200} height={200} />
               </Card>
               );

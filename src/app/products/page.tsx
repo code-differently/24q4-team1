@@ -86,7 +86,7 @@ export default function Page() {
                         <p className="text-gray-500">{item.description}</p>
                         <p className="text-gray-500">There are {item.stock} of this item</p>
                         <img className="w-96 h-96" src={img[0]} alt={item.name} />
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hover:text-gray-300" onClick={() => {buyNow(item.id)}}>Buy Now</button>
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hover:text-gray-300" onClick={() => {buyNow(item.id)}}>Add To Cart </button>
                         </div>
                     </div>
                 );
