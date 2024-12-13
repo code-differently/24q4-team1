@@ -44,7 +44,7 @@ export default function Page() {
     }
 
     return (
-        <div className="bg-black">
+        <div className="bg-gradient-to-br from-teal-300 to-teal-600 grid grid-cols-4 overflow-auto">
             <NavLinks/>
             {data.map((item) => {
                 function buyNow(id: number) {
@@ -76,16 +76,18 @@ export default function Page() {
                     console.error("Error parsing item images", e);
                     img = [];
                 }
-
+                
                 return (
-                    <div className="flex align-center justify-center flex-col bg-black text-white gap-2" key={item.id}>
+                    <div className="pt-20 px-4 " key={item.id}>
+                        <div key={item.id} className="bg-white p-4 rounded-lg shadow-lg">
                         <h1>{item.id}</h1>
-                        <h1>{item.name}</h1>
-                        <p>${item.price} each</p>
-                        <p>{item.description}</p>
-                        <p>There are {item.stock} of this item</p>
+                        <h1 className="text-lg font-semibold">{item.name}</h1>
+                        <p className="text-lg text-gray-600 font-bold">${item.price} each</p>
+                        <p className="text-gray-500">{item.description}</p>
+                        <p className="text-gray-500">There are {item.stock} of this item</p>
                         <img className="w-96 h-96" src={img[0]} alt={item.name} />
-                        <button className="bg-gradient-to-br from-teal-700 to-teal-800 w-[100%] hover:text-gray-300" onClick={() => {buyNow(item.id)}}>Buy Now</button>
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hover:text-gray-300" onClick={() => {buyNow(item.id)}}>Buy Now</button>
+                        </div>
                     </div>
                 );
             })}
