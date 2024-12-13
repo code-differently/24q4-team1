@@ -16,19 +16,17 @@ export default function CartGetter() {
                 return NextResponse.json(error);
             }
         };
-    
+
         fetchItems();
       }, []);
-    
+
     return (
         <>
             {data.map((item) => {
             let imageSrc = null;
             try {
-              const parsedImage = JSON.parse(item.image); 
-              if (Array.isArray(parsedImage) && parsedImage[0]) {
-                imageSrc = parsedImage[0];  
-              }
+                const parsedImage = JSON.parse(item.image[0]);
+                imageSrc = parsedImage[0];
             } catch (error) {
               console.error("Error parsing image:", error);
             }
