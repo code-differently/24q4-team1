@@ -143,28 +143,25 @@
  */
 
 import { NextResponse } from "next/server";
-import getDatabaseConnection from "../../scripts/db";
+import { getDatabaseConnection } from "../../scripts/db";
 import { Item } from "@/types/item";
 import { RawItem } from "@/types/rawItem";
 import { RouteHandler } from "@/types/routeHandler";
 
 const db = getDatabaseConnection();
 
-
 export const GET: RouteHandler = async (request) => {
-
   const url = new URL(request.url);
   const id = url.pathname.split('/').pop(); // Extract id from the URL path
 
   if (!id) {
-      return NextResponse.json({ error: "id parameter is missing" }, { status: 400 });
+    return NextResponse.json({ error: "id parameter is missing" }, { status: 400 });
   }
 
   try {
-    // Query the database for the item and define its type
-    const rawItem = db
-      .prepare("SELECT * FROM items WHERE id = ?")
-      .get(id) as RawItem | undefined;
+    // Directly inserting id into query string (be cautious with this approach)
+    const result = await db.execute(`SELECT * FROM items WHERE id = ${id}`);
+    const rawItem = result.rows[0] as unknown as RawItem | undefined;
 
     if (rawItem) {
       // "Un-stringify" JSON fields
@@ -175,45 +172,49 @@ export const GET: RouteHandler = async (request) => {
       };
 
       // Return the un-stringified item as JSON
-      return NextResponse.json(item, {status: 200});
+      return NextResponse.json(item, { status: 200 });
     } else {
       // Return a 404 response if the item is not found
-      return NextResponse.json(
-        { error: "Item not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Item not found" }, { status: 404 });
     }
   } catch (error: unknown) {
     console.error("Error fetching product:", error);
 
     // Return a 500 response if there is a server error
-    return NextResponse.json(
-      { error: "Failed to fetch product", details: error },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch product", details: error }, { status: 500 });
   }
-}
+};
 
 export const DELETE: RouteHandler = async (request) => {
   const { id } = await request.json();
 
   try {
-    const item = db.prepare(`SELECT * FROM items WHERE id = ?`).get(id) as Item | undefined;
-    if(!id || !item) {
+    // Directly inserting id into query string (be cautious with this approach)
+    const result = await db.execute(`SELECT * FROM items WHERE id = ${id}`);
+    const item = result.rows[0] as unknown as Item | undefined;
+
+    if (!id || !item) {
       return NextResponse.json({ error: "id parameter is missing" }, { status: 400 });
     }
-    if(item.stock <= 0) {
+
+    if (item.stock <= 0) {
       return NextResponse.json({ error: "Insufficient stock" }, { status: 400 });
     }
-    const deleted = db.prepare(`UPDATE items SET quantity = quantity - 1 FROM items WHERE id = ?`).run(id);
-    const updatedItem = db.prepare(`SELECT * FROM items WHERE id = ?`).get(id) as Item;
-    if(updatedItem.stock <= 0) {
-      db.prepare(`DELETE FROM items WHERE id = ?`).run(id);
+
+    // Decrease stock quantity
+    await db.execute(`UPDATE items SET quantity = quantity - 1 WHERE id = ${id}`);
+
+    // Check if the stock is zero or less and delete the item
+    const updatedResult = await db.execute(`SELECT * FROM items WHERE id = ${id}`);
+    const updatedItem = updatedResult.rows[0] as unknown as Item;
+
+    if (updatedItem.stock <= 0) {
+      await db.execute(`DELETE FROM items WHERE id = ${id}`);
     }
-    return NextResponse.json(deleted);
+
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error(error);
+    console.error("Error deleting product:", error);
     return NextResponse.json({ error: "server error" }, { status: 500 });
   }
-
 };

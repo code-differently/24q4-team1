@@ -177,51 +177,53 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import getDatabaseConnection from "../scripts/db";
-import {Item} from '@/types/item';
+import { getDatabaseConnection } from "../scripts/db"; // Ensure this returns a Turso-compatible libsql client
+import { Item } from '@/types/item';
+
+// Initialize the database connection using libsql
 const db = getDatabaseConnection();
 
-function fetchItems(){
-  const items = db.prepare("SELECT * FROM items").all();
-  return items
+async function fetchItems() {
+  const result = await db.execute("SELECT * FROM items");
+  return result.rows;
 }
 
-function addItemToDB(item: Item){
-
-  console.log(item);
-
-  const insertData = db.prepare(`
-    INSERT OR IGNORE INTO items (
-      id, title, description, price, images, category, stock, rating,
-      discountPercentage, brand, sku, warrantyInformation, shippingInformation, reviews
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `);
-  const values = [
-    item.id,
-    item.title,
-    item.description,
-    item.price,
-    JSON.stringify(item.images), // Convert arrays or objects to a string for storage
-    item.category,
-    item.stock,
-    item.rating,
-    item.discountPercentage,
-    item.brand,
-    item.sku,
-    item.warrantyInformation,
-    item.shippingInformation,
-    JSON.stringify(item.reviews) // Convert arrays or objects to a string for storage
-  ];
-
-  insertData.run(values);
-
-
+async function addItemToDB(item: Item) {
+  try {
+    const insertData = await db.execute({
+      sql: `
+        INSERT INTO items (
+          title, description, price, images, category, stock, rating,
+          discountPercentage, brand, sku, warrantyInformation, shippingInformation, reviews
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `,
+      args: [
+        item.title ?? "", // Use a default empty string if undefined
+        item.description ?? "", // Use a default empty string if undefined
+        item.price ?? 0, // Use 0 if price is undefined
+        JSON.stringify(item.images ?? []), // Use an empty array if undefined
+        item.category ?? "", // Use a default empty string if undefined
+        item.stock ?? 0, // Use 0 if stock is undefined
+        item.rating ?? 0, // Use 0 if rating is undefined
+        item.discountPercentage ?? 0, // Use 0 if discountPercentage is undefined
+        item.brand ?? "", // Use a default empty string if undefined
+        item.sku ?? "", // Use a default empty string if undefined
+        item.warrantyInformation ?? "", // Use a default empty string if undefined
+        item.shippingInformation ?? "", // Use a default empty string if undefined
+        JSON.stringify(item.reviews ?? []), // Use an empty array if reviews is undefined
+      ]
+    });
+    return insertData;
+  } catch (error) {
+    console.error("Error adding item to DB:", error);
+    throw new Error("Failed to add item to the database");
+  }
 }
 
 export async function GET() {
   try {
-    const items = fetchItems();
-    return NextResponse.json(items, {status: 200});
+    const items = await fetchItems();
+    return NextResponse.json({ products: items }, { status: 200 });
   } catch (error) {
     console.error("Error fetching items:", error);
     return NextResponse.json(
@@ -246,8 +248,9 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    const items = fetchItems();
-    const itemMaxId = Math.max(...(items as Item[]).map((item) => item.id), 0);
+
+    const items = await fetchItems();
+    const itemMaxId = Math.max(...(items as unknown as Item[]).map((item) => item.id), 0);
 
     const newItem: Item = {
       id: itemMaxId + 1,
@@ -258,10 +261,9 @@ export async function POST(request: NextRequest) {
       ...itemData,
     };
 
-    addItemToDB(newItem);
+    await addItemToDB(newItem);
 
-
-    return NextResponse.json(newItem, { status: 200 });
+    return NextResponse.json(newItem, { status: 201 });
   } catch (error) {
     console.error("Error adding product:", error);
     return NextResponse.json(
@@ -270,8 +272,17 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-export async function DELETE(req: NextRequest){
-  const {id} = await req.json();
-  const del = db.prepare(`DELETE FROM items WHERE id = ?`).run(id);
-  return NextResponse.json(del);
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const { id } = await req.json();
+    const deleteResult = await db.execute(`DELETE FROM items WHERE id = ${id}`);
+    return NextResponse.json({ message: "Item deleted", affectedRows: deleteResult.rowsAffected });
+  } catch (error) {
+    console.error("Error deleting item:", error);
+    return NextResponse.json(
+      { error: "Failed to delete item" },
+      { status: 500 }
+    );
+  }
 }

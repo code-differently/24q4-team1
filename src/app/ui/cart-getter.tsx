@@ -25,7 +25,7 @@ export default function CartGetter() {
             {data.map((item) => {
             let imageSrc = null;
             try {
-                const parsedImage = JSON.parse(item.image[0]);
+                const parsedImage = JSON.parse(item.image);
                 imageSrc = parsedImage[0];
             } catch (error) {
               console.error("Error parsing image:", error);

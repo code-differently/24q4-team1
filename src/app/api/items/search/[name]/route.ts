@@ -143,10 +143,11 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import getDatabaseConnection from "../../../scripts/db";
+import { getDatabaseConnection } from "../../../scripts/db"; // Adjust the import path as needed
 import { Item } from "@/types/item";
 import { RawItem } from "@/types/rawItem";
 
+// Initialize the database connection using libsql
 const db = getDatabaseConnection();
 
 export async function GET(request: NextRequest) {
@@ -162,10 +163,9 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    // Query the database for the item by name
-    const rawItem = db
-      .prepare("SELECT * FROM items WHERE title = ?")
-      .get(name) as RawItem | undefined;
+    // Query the database for the item by name using libsql's execute method
+    const result = await db.execute(`SELECT * FROM items WHERE title = ${name}`);
+    const rawItem = result.rows[0] as unknown as RawItem | undefined;
 
     if (rawItem) {
       // "Un-stringify" JSON fields

@@ -3,6 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "pnpm": {
+    "supportedArchitectures": {
+      "os": [
+        "linux",
+        "current"
+      ],
+      "cpu": [
+        "x64",
+        "arm64"
+      ]
+    }
+  },
   "scripts": {
     "test": "nyc mocha",
     "dev": "next dev",
@@ -17,6 +29,7 @@
     "@clerk/nextjs": "^6.9.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@libsql/client": "^0.14.0",
     "@mui/icons-material": "^6.2.0",
     "@mui/joy": "^5.0.0-beta.48",
     "@types/node": "^22.9.0",
@@ -30,6 +43,7 @@
     "postcss": "^8.4.49",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "sharp": "^0.33.5",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7",
     "swagger-ui-react": "^5.18.2",
