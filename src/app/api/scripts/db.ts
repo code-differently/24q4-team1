@@ -1,5 +1,4 @@
 import { createClient } from "@libsql/client";
-import { Item } from "@/types/item";
 import axios from "axios";
 
 
@@ -68,13 +67,6 @@ async function fetchDataAndStore() {
     if (!Array.isArray(items)) {
       throw new Error("The 'products' field is not an array or is missing.");
     }
-
-    const insertQuery = `
-      INSERT OR IGNORE INTO items (
-        id, title, description, price, images, category, stock, rating,
-        discountPercentage, brand, sku, warrantyInformation, shippingInformation, reviews
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `;
 
     for (const item of items) {
       try {

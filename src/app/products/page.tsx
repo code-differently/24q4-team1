@@ -23,8 +23,9 @@ export default function Page() {
                 } else {
                     throw new Error("Data is not an array");
                 }
-            } catch (error: any) {
-                setError(error.message); // Set error state
+            } catch (error: unknown) {
+                console.log(error);
+                setError("not an array"); // Set error state
             } finally {
                 setLoading(false); // Set loading to false after the request is complete
             }

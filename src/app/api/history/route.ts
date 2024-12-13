@@ -97,7 +97,7 @@ export async function DELETE(req: NextRequest) {
         const { id } = await req.json();
 
         // Delete from history based on id
-        const result = await db.execute(`DELETE FROM history WHERE id = ${id}`);
+        db.execute(`DELETE FROM history WHERE id = ${id}`);
 
         return NextResponse.json({ message: `Deleted item with id ${id}` }, { status: 200 });
     } catch (error) {
