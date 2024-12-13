@@ -5,7 +5,7 @@ import axios from "axios";
 export function getDatabaseConnection() {
   const client = createClient({
     url: "libsql://my-db-xaviercruz5106.turso.io",
-    authToken: 'eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MzQwNjQxOTYsImlkIjoiNDJjOGZmNDItODNjYS00YmE2LTk1ZmYtYTBkNTFmMTY3YTM2In0.-SbCgnz35f0QHTeDvMMVKvqCjPAZoJFOMQKG7f1fxfA3uf62M9uNEs3CStOGelRwnpte6NsWtwy3d9hlfjUqAQ'
+    authToken: 'eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MzQxMDI5MTIsImlkIjoiYWM3ZjQ2ZDgtNGE0Ny00ZGJlLTlhM2EtYWRkZTI0YTdjMjVkIn0.q1geERyKE8l3Htx-CpD7VGhDNkJdxjCyaujweyh2WIn_wdnOXa9PV29TboBhoKXbBGnt7LzwAQ2gDCTSTNH4Ag'
   });
   return client;
 }
