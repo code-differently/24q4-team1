@@ -65,6 +65,7 @@ export default function Page() {
                         },
                         body: JSON.stringify({ id: id }),
                     });
+                    location.reload();
                 }
 
                 // Check if item.images is an array, otherwise parse it as a JSON string
