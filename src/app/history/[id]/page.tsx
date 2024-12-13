@@ -14,7 +14,7 @@ export default async function ItemDetailsPage({ params }: ItemDetailsPageProps) 
   const { id } = await params;
 
   // Fetch the item based on the dynamic id
-  const response = await fetch(`/api/history/${id}`);
+  const response = await fetch(`${process.env.API_PATH}/api/history/${id}`);
   if (!response.ok) {
     return (
       <div>
@@ -28,8 +28,8 @@ export default async function ItemDetailsPage({ params }: ItemDetailsPageProps) 
 
   let imageSrc: string | null = null;
   try {
-    const parsedImage = JSON.parse(item.image[0]); // Assuming item.image is a JSON string
-    imageSrc = parsedImage; // If it's a single string, use it directly
+    const parsedImage = JSON.parse(item.image); // Assuming item.image is a JSON string
+    imageSrc = parsedImage[0]; // If it's a single string, use it directly
   } catch (error) {
     console.error("Error parsing image:", error);
   }

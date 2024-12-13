@@ -98,8 +98,9 @@
 import { NextResponse } from "next/server";
 import { getDatabaseConnection } from "../../scripts/db";
 import { CartItem } from "@/types/cartItem";
+import { RouteHandler } from "@/types/routeHandler";
 
-export async function GET(request: Request) {
+export const GET: RouteHandler = async (request) => {
   const db = getDatabaseConnection(); // Initialize DB connection
   const url = new URL(request.url);
   const id = url.pathname.split('/').pop(); // Extract ID from the URL path
