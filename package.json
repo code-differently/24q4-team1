@@ -5,8 +5,14 @@
   "type": "module",
   "pnpm": {
     "supportedArchitectures": {
-      "os": ["linux", "current"],
-      "cpu": ["x64", "arm64"]
+      "os": [
+        "linux",
+        "current"
+      ],
+      "cpu": [
+        "x64",
+        "arm64"
+      ]
     }
   },
   "scripts": {
@@ -23,6 +29,7 @@
     "@clerk/nextjs": "^6.9.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@libsql/client": "^0.14.0",
     "@mui/icons-material": "^6.2.0",
     "@mui/joy": "^5.0.0-beta.48",
     "@types/node": "^22.9.0",

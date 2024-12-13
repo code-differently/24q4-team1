@@ -1,4 +1,3 @@
-
 /**
  * @swagger
  * /api/history/{id}:
@@ -97,27 +96,32 @@
  */
 
 import { NextResponse } from "next/server";
-import  getDatabaseConnection  from "../../scripts/db";
+import { getDatabaseConnection } from "../../scripts/db";
 import { CartItem } from "@/types/cartItem";
+
 export async function GET(request: Request) {
-    const db = getDatabaseConnection();
-    const url = new URL(request.url);
-    const id = url.pathname.split('/').pop(); 
+  const db = getDatabaseConnection(); // Initialize DB connection
+  const url = new URL(request.url);
+  const id = url.pathname.split('/').pop(); // Extract ID from the URL path
 
-    if (!id) {
-        return NextResponse.json({ error: "id parameter is missing" }, { status: 400 });
+  if (!id) {
+    return NextResponse.json({ error: "id parameter is missing" }, { status: 400 });
+  }
+
+  try {
+    // Execute query to fetch the item from history using libsql/client API
+    const result = await db.execute(`SELECT * FROM history WHERE id = ${id}`);
+
+    // Check if an item was found
+    const item = result.rows[0] as unknown as CartItem | undefined;
+
+    if (!item) {
+      return NextResponse.json({ error: "item does not exist" }, { status: 404 });
     }
 
-    try {
-
-        const item = db.prepare(`SELECT * FROM history WHERE id = ?`).get(id) as CartItem | undefined;
-        if (!item) {
-            return NextResponse.json({ error: "item does not exist" }, { status: 404 });
-        }
-
-        return NextResponse.json(item, { status: 200 });
-    } catch (error) {
-        console.error(error);
-        return NextResponse.json({ error: "server error" }, { status: 500 });
-    }
+    return NextResponse.json(item, { status: 200 });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: "server error" }, { status: 500 });
+  }
 }
