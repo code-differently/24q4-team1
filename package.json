@@ -3,6 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "pnpm": {
+    "supportedArchitectures": {
+      "os": ["linux", "current"],
+      "cpu": ["x64", "arm64"]
+    }
+  },
   "scripts": {
     "test": "nyc mocha",
     "dev": "next dev",
