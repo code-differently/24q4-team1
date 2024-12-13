@@ -14,7 +14,7 @@ export default async function ItemDetailsPage({ params }: ItemDetailsPageProps) 
   const { id } = await params;
 
   // Fetch the item based on the dynamic id
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/history/${id}`);
+  const response = await fetch(`/api/history/${id}`);
   if (!response.ok) {
     return (
       <div>
